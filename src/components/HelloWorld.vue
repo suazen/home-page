@@ -28,7 +28,7 @@
     </div>
     <div class="website-icons">
       <el-popover
-          v-for="(website) in websites" :key="website.id"
+          v-for="(website,index) in websites" :key="website.id"
           title="编辑网站"
           placement="top"
           width="300"
@@ -49,7 +49,7 @@
           <el-button size="mini" type="text" @click="resetForm(website)">取消</el-button>
           <el-button type="primary" size="mini" @click="saveSite(website)">确定</el-button>
         </div>
-        <a slot="reference" :href="website.url" target="_blank" @contextmenu.prevent="onContextmenu($event,website)">
+        <a slot="reference" :href="website.url" target="_blank" @contextmenu.prevent="onContextmenu($event,website,index)">
           <el-avatar :size="60" :src="website.icon || `${website.url}/favicon.ico`" :alt="website.name" @error="iconErrorHandler" fit="scale-down">
             {{website.name}}
           </el-avatar>
@@ -115,6 +115,9 @@ export default {
       },{
         name: '必应',
         url: 'https://cn.bing.com/search?q='
+      },{
+        name: '百度',
+        url: 'https://www.baidu.com/s?wd='
       }],
       suggestions: [],
       hisList: [],
@@ -202,6 +205,7 @@ export default {
         this.popVisible = false
       }
       localStorage.setItem("websites",JSON.stringify(this.websites))
+      this.site = {}
     },
     resetForm(website) {
       if (website){
@@ -211,7 +215,7 @@ export default {
       }
       this.site = {}
     },
-    onContextmenu(event,website) {
+    onContextmenu(event,website,index) {
       this.$contextmenu({
         items: [
           {
@@ -221,6 +225,29 @@ export default {
             onClick: () => {
               website.popVisible = true
               this.site = {...website}
+            }
+          },
+          {
+            label: "前移",
+            icon: "el-icon-back",
+            onClick: () => {
+              if(index == 0) {
+                return;
+              }
+              this.swapItem(this.websites, index, index - 1);
+              localStorage.setItem("websites",JSON.stringify(this.websites))
+            }
+          },
+          {
+            label: "后移",
+            icon: "el-icon-right",
+            divided: true,
+            onClick: () => {
+              if(index == this.websites.length-1) {
+                return;
+              }
+              this.swapItem(this.websites, index, index + 1);
+              localStorage.setItem("websites",JSON.stringify(this.websites))
             }
           },
           { label: "删除",
@@ -238,6 +265,10 @@ export default {
         minWidth: 100
       });
       return false;
+    },
+    swapItem(arr,fromIndex,toIndex){
+      arr[toIndex] = arr.splice(fromIndex, 1, arr[toIndex])[0];
+      return arr;
     }
   }
 }
