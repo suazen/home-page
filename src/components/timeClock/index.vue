@@ -57,15 +57,15 @@ export default {
 }
 .time {
   font-weight: bold;
-  font-size: 64px;
+  font-size: 72px;
   font-family: sans-serif;
 }
 .date {
-  font-size: 20px;
+  font-size: 22px;
   font-family: sans-serif;
 }
 .lunar {
-  font-size: 18px;
+  font-size: 20px;
   font-family: sans-serif;
 }
 </style>
