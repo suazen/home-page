@@ -3,6 +3,8 @@
     <div class="time">{{ currentTime }}</div>
     <div class="date">{{ currentDate }}</div>
     <div class="lunar">{{ lunarDate }}</div>
+    <div class="lunar">{{ solarFestival }}</div>
+    <div class="lunar">{{ lunarFestival }}</div>
   </div>
 </template>
 
@@ -15,7 +17,9 @@ export default {
     return {
       currentTime: '',
       currentDate: '',
-      lunarDate: ''
+      lunarDate: '',
+      solarFestival: '',
+      lunarFestival: ''
     }
   },
   mounted() {
@@ -37,8 +41,10 @@ export default {
       const week = ['日', '一', '二', '三', '四', '五', '六']
       const lunar = LunarCalendar.solarToLunar(year, month, date)
       this.currentTime = `${hour}:${minute}:${second}`
-      this.currentDate = `${year}年${month}月${date}日 星期${week[day]} `+ (lunar.solarFestival || '')
-      this.lunarDate = `农历${lunar.lunarMonthName}${lunar.lunarDayName} `+ (lunar.lunarFestival || '')
+      this.currentDate = `${year}年${month}月${date}日 星期${week[day]}`
+      this.lunarDate = `农历${lunar.lunarMonthName}${lunar.lunarDayName}`
+      this.solarFestival = lunar.solarFestival || ''
+      this.lunarFestival = lunar.lunarFestival || ''
     },
     // 补零
     padZero(num) {

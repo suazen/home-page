@@ -278,6 +278,7 @@ export default {
 .container {
   background: url("https://api.kdcc.cn/img/bingimg/dayimg.jpg") rgba(0, 0, 0, .2) no-repeat center center;
   background-blend-mode: multiply;
+  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
